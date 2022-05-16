@@ -21,7 +21,7 @@ const swaggerFile = require('./swagger_output.json') // 剛剛輸出的 JSON
 
 // 有沒有寫錯程式碼
 //　記錄錯誤，等到服務都處理完後，停掉該ｐｒｏｃｅｓｓ
-process.on('uncaughException', err=>{
+process.on('uncaughException', err => {
   console.error('Uncaughted Exception!!');
   console.error(err);
   console.error(err.name);
@@ -64,23 +64,31 @@ app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 
 // 404錯誤
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
   res.status(404).json({
     status: 'error',
     message: '無此路由資訊',
   });
 });
 
-const resErrorProd = (err, res)=>{
-  res.status(err.statusCode).json({
-    message: err.message,
-    error: err,
-    // stack: err.stack,
-  })
+const resErrorProd = (err, res) => {
+  if (err.isOperational) {
+    res.status(err.statusCode).json({
+      message: err.message,
+      // error: err,
+      // stack: err.stack,
+    })
+  } else {
+    // 送出罐頭預設訊息
+    res.status(500).json({
+      status: 'error',
+      message: '系統錯誤，請恰系統管理員'
+    });
+  }
 }
 
 // 開發環境錯誤
-const resErrorDev = (err, res)=>{
+const resErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     message: err.message,
     error: err,
@@ -89,15 +97,15 @@ const resErrorDev = (err, res)=>{
 }
 
 
-app.use((err, req, res, next)=>{
+app.use((err, req, res, next) => {
   // dev
   err.statusCode = err.statusCode || 500;
-  if(process.env.NODE_ENV === 'dev') {
+  if (process.env.NODE_ENV === 'dev') {
     return resErrorDev(err, res);
   }
 
   //production
-  if(err.name === 'ValidationError') {
+  if (err.name === 'ValidationError') {
     err.message = "資料欄位未填寫正確，請重新輸入!"
     err.isOperational = true;
     return resErrorProd(err, res);
@@ -109,8 +117,8 @@ app.use((err, req, res, next)=>{
 app.use(function (err, req, res, next) {
   // 自訂500錯誤
   res.status(500).json({
-          "err": err.message,
-      })
+    "err": err.message,
+  })
 });
 
 
