@@ -40,7 +40,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://blooming-sands-85089.herokuapp.com/posts-by-userId/234",
+					"raw": "http://blooming-sands-85089.herokuapp.com/posts-by-userId/6277d49f5b11695971e06846",
 					"protocol": "http",
 					"host": [
 						"blooming-sands-85089",
@@ -49,7 +49,7 @@
 					],
 					"path": [
 						"posts-by-userId",
-						"234"
+						"6277d49f5b11695971e06846"
 					]
 				}
 			},
@@ -61,7 +61,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://blooming-sands-85089.herokuapp.com/posts/1234",
+					"raw": "http://blooming-sands-85089.herokuapp.com/posts/62811202ff9528f00b97d9d6",
 					"protocol": "http",
 					"host": [
 						"blooming-sands-85089",
@@ -70,7 +70,7 @@
 					],
 					"path": [
 						"posts",
-						"1234"
+						"62811202ff9528f00b97d9d6"
 					]
 				}
 			},
